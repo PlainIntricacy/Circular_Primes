@@ -1,7 +1,7 @@
 /*
     Calculates the number of circular primes between 0 and an upper limit which is provided by user input.
 
-    A circular prime number when both itself and its reverse are primes.
+    A number is a circular prime when both itself and its reverse are primes.
     For example, the number 13 is a circular prime number, because its reverse, 31, is also a prime.
 
     Based on Problem 35 on projecteuler.net
@@ -10,7 +10,6 @@
 package circular_primes;
 import java.math.*;
 import java.util.ArrayList;
-//import java.util.List;
 import java.util.Scanner;
 
 /**
