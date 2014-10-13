@@ -1,6 +1,8 @@
 /*
-    The number, 197, is called a circular prime because all rotations of the digits: 197, 971, and 719, are themselves prime.
-    There are thirteen such primes below 100: 2, 3, 5, 7, 11, 13, 17, 31, 37, 71, 73, 79, and 97.
+    Calculates the number of circular primes between 0 and an upper limit which is provided by user input.
+
+    A circular prime number when both itself and its reverse are primes.
+    For example, the number 13 is a circular prime number, because its reverse, 31, is also a prime.
 
     Based on Problem 35 on projecteuler.net
  */
@@ -26,55 +28,54 @@ public class Circular_Primes {
         int limit = input.nextInt();
         input.close();
         ArrayList<Integer> primes = new ArrayList<Integer>();
-        int sum = 1;
-       primes.add(2);
-       boolean found = true;
-        for(int i=3; i<=limit; i+=2){
-            int q = i;
-            do{
-                if(primality(i)==false){
-                    found = false;
-                }
-                i = rotate(i);
-            }while(i!=q&&found==true);
-            if(found==true){
-                sum++;
-                primes.add(q);
-            }
+        int sum = 0;
+       boolean found=true;
+       if(limit>2){
+           sum++;
+           primes.add(2);
+       }
+       for(int i=3; i<=limit; i+=2){
+           found=true;
+           int temp = i; 
+           if(primality(i)&&primality(rotate(temp))){
+               sum++;
+               primes.add(i);
+           }           
         }
-        if(sum>1){
+        if(sum>=1){
             System.out.println("There are " + sum + " circular prime numbers between 0 and " + limit + ":");
             for(int c=0; c<primes.size(); c++){
-                System.out.print(primes.get(c) + ", ");
+                System.out.println(primes.get(c));
             }
+        }else{
+            System.out.println("No circular primes were found between 0 and " + limit + ".");
         }
             
         }
     
     public static boolean primality(int q){
+        if(q==2){
+            return true;
+        }else
+        if(q%2==0&&q!=2){
+            return false;
+        }else{
         for(int i=3; i<=Math.sqrt(q); i+=2){
                 if(q%i==0){
                     return false;
                 }
             }
+        }
         return true;
     }
     
     public static int rotate(int x){
-        if(x/10>0){
-            int y = x/(int)Math.pow(10, digits(x));
-            x = (x%(int)Math.pow(10, digits(x)))*10 + y;
-            return x;
-        }
-        return x;
-    }
-    
-    public static int digits(int x){
-        int count = -1;
-        while(x>0){
-                x=x/10;
-                count++;
-        }
-        return count;
+        int y=0;
+        do{
+            y*=10;
+            y+=x%10;
+            x=x/10;
+        }while(x>0);
+        return y;
     }
 }
